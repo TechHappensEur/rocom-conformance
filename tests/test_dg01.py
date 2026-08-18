@@ -25,8 +25,8 @@ from harness import (
     run_with_timeout, HarnessTimeout
 )
 
-BROKER = "localhost"
-BROKER_PORT = 1883
+BROKER = os.environ.get("MQTT_BROKER", "localhost")
+BROKER_PORT = int(os.environ.get("MQTT_BROKER_PORT", "1883"))
 TOPIC_PREFIX = "rocom/registry"
 
 # Required fields for data profile per dg-req-001
@@ -142,7 +142,24 @@ def run_tests():
         failed=failed,
         skipped=0,
         not_run=not_run,
-        build_provenance={"toolchain": "python 3.x, paho-mqtt", "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=os.path.dirname(os.path.dirname(__file__)), stderr=subprocess.DEVNULL).decode().strip()},
+        build_provenance={
+            "toolchain": "python 3.x, paho-mqtt",
+            "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=os.path.dirname(os.path.dirname(__file__)), stderr=subprocess.DEVNULL).decode().strip(),
+            "fixtures": [
+                {
+                    "name": "mqtt_broker",
+                    "type": "eclipse-mosquitto:2",
+                    "source": "docker image",
+                },
+                {
+                    "name": "simulator",
+                    "type": "vda5050-robot-simulator",
+                    "repo": "TechHappensEur/vda5050-robot-simulator",
+                    "sha": "a17873c9a1aad54a773d31b4c2f784029c83ca3f",
+                    "vda_version": "2.0.0",
+                },
+            ],
+        },
         junit_xml=True,
         coverage={
             "total_requirements": 20,

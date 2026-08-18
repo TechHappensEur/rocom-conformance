@@ -30,11 +30,12 @@ import time
 # eh-req-011: bounded timeout for each probe (seconds)
 DEFAULT_TIMEOUT = 5
 
-SERVICE_CHECKS = {
-    "mqtt_broker":       {"host": "localhost", "port": 1883, "type": "tcp"},
-    "hrrm_core_api":     {"host": "localhost", "port": 8000, "type": "tcp"},
-    "vda5050_gateway":   {"host": "localhost", "port": 8001, "type": "tcp"},
-    "allocation_engine": {"host": "localhost", "port": 8002, "type": "tcp"},
+# Ports configurable via env (WP5: out of 8000-series which AI1 uses for llama-server)
+DEFAULT_SERVICES = {
+    "mqtt_broker":       {"host": "localhost", "port": int(os.environ.get("MQTT_BROKER_PORT", 1883)), "type": "tcp"},
+    "hrrm_core_api":     {"host": "localhost", "port": int(os.environ.get("HRRM_CORE_PORT", 18830)), "type": "tcp"},
+    "vda5050_gateway":   {"host": "localhost", "port": int(os.environ.get("VDA_GATEWAY_PORT", 18831)), "type": "tcp"},
+    "allocation_engine": {"host": "localhost", "port": int(os.environ.get("ALLOCATION_PORT", 18832)), "type": "tcp"},
 }
 
 TOOL_CHECKS = ["cargo", "omc", "newman", "cadquery", "docker"]
@@ -75,7 +76,7 @@ def run_preflight(timeout=DEFAULT_TIMEOUT, skip=None):
     missing_services = []
 
     # Service probes
-    for name, cfg in SERVICE_CHECKS.items():
+    for name, cfg in DEFAULT_SERVICES.items():
         if name in skip:
             continue
         ok, msg = probe_tcp(cfg["host"], cfg["port"], timeout)

@@ -66,6 +66,10 @@ def create_report(test_id, verdict, test_count, passed, failed, skipped, not_run
     # eh-req-005: build_provenance mandatory
     if build_provenance is None:
         build_provenance = {"toolchain": "n/a"}
+    # WP5: build_provenance includes fixture metadata
+    # (simulator repo, pinned SHA, VDA version)
+    if "fixtures" not in build_provenance:
+        build_provenance["fixtures"] = []
 
     # D1: enforce_verdict — failed>0 forces FAIL
     verdict = enforce_verdict(verdict, test_count, passed, failed, skipped)

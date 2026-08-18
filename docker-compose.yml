@@ -1,11 +1,10 @@
-version: "3.9"
-
+# FILE: docker-compose.yml
+# WP5: fixtures in compose network, no published host ports.
+# Port collisions on the host are not our problem to solve — every
+# vendor running the suite will hit them. Internal names and ports only.
 services:
   mosquitto:
     image: eclipse-mosquitto:2
-    ports:
-      - "1883:1883"
-      - "9001:9001"
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     healthcheck:
@@ -13,3 +12,34 @@ services:
       interval: 5s
       timeout: 10s
       retries: 3
+
+  vda5050-mock:
+    image: python:3.11-slim
+    volumes:
+      - ./fixtures:/app/fixtures:ro
+    working_dir: /app
+    command: ["sh", "-c", "pip install paho-mqtt && python fixtures/vda5050_mock.py"]
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_BROKER_PORT=1883
+
+  conformance-tests:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+    command: ["sh", "-c", "pip install paho-mqtt && python run_tests.py"]
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      vda5050-mock:
+        condition: service_started
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_BROKER_PORT=1883
+      - HRRM_CORE_PORT=18830
+      - VDA_GATEWAY_PORT=18831
+      - ALLOCATION_PORT=18832
