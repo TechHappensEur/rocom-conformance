@@ -1,21 +1,63 @@
 {
   "work_package": "WP2",
-  "title": "L1 Conformance Harness — schema, preflight, reporter, eh-req-023/024",
+  "title": "L1 Conformance Harness — eh-req-001/002/005/011/022/023/024",
   "date": "2026-08-18",
   "repo": "https://github.com/TechHappensEur/rocom-conformance",
   "requirements": {
-    "eh-req-023": "Every CI job MUST report test count with mandatory fields (test_id, verdict, coverage, evidence, timestamp)",
-    "eh-req-024": "CI job with 0 tests or only skipped = NOT_RUN, never success"
+    "eh-req-001": "JUnit XML output for machine-readable evidence",
+    "eh-req-002": "Status vocabulary PASS/FAIL/NOT_RUN/ERROR with not_run_reason enum",
+    "eh-req-005": "build_provenance mandatory (n/a where no build exists)",
+    "eh-req-011": "Preflight dependency probing with bounded timeout",
+    "eh-req-022": "Self-test must cover all 4 statuses including negative fixtures (SUSPECT_TAUTOLOGY)",
+    "eh-req-023": "Zero executed tests → verdict MUST be NOT_RUN",
+    "eh-req-024": "CI job reporting success MUST specify number of executed tests"
   },
   "commits": [
     {
       "sha": "d67f9d1",
+      "message": "Initial L1 harness (eh-req-023, eh-req-024)",
       "url": "https://github.com/TechHappensEur/rocom-conformance/commit/d67f9d1"
+    },
+    {
+      "sha": "1ceaafd",
+      "message": "WP2 v2: eh-req-001/002/005/011/022/023/024 — full implementation",
+      "url": "https://github.com/TechHappensEur/rocom-conformance/commit/1ceaafd"
     }
   ],
-  "self_test": "5/5 passed (test_self.py)",
-  "findings": {
-    "integration_job_eh_req_023": "integration job runs 'make demo' (demo.py) — not a test suite. No pytest, no test count. Per eh-req-023 this MUST report test count. Currently reports nothing. Violation.",
-    "integration_job_eh_req_024": "integration job reports 'success' with 0 executed tests. Per eh-req-024 this MUST be NOT_RUN. Violation."
+  "evidence": {
+    "self_test": "9/9 passed, verdicts: ERROR, FAIL, NOT_RUN, PASS",
+    "self_test_report": "tests/self-test-report.json",
+    "junit_xml": "tests/self-test-report.xml",
+    "schema_validation": "PASS (jsonschema validate report against schema)"
+  },
+  "wp1_receipt": {
+    "file": "reports/eh-receipts/receipt-wp1.json",
+    "verify": "reports/eh-receipts/verify_receipt.py (5/5 checks pass, exit 0)",
+    "commit_url": "https://github.com/TechHappensEur/Rocom-HRRM/commit/5ea25c4"
+  },
+  "ferrocene_claims": [
+    {
+      "file": "rocom-core/src/lib.rs",
+      "line": 4,
+      "sentence": "//! Built with Ferrocene 24.11.0 (IEC 62304 Class C qualified)",
+      "reality": "13 compile errors on rustc 1.97.1 stable, Ferrocene toolchain never configured"
+    },
+    {
+      "file": "rocom-hrrm/src/lib.rs",
+      "line": 5,
+      "sentence": "//! IEC 62304 Class C: deterministic, bounded, no ML at runtime.",
+      "reality": "3 compile errors in replan.rs, no build verification"
+    },
+    {
+      "file": "rocom-hrrm/src/replan.rs",
+      "line": 243,
+      "sentence": "// Placeholder — the Ferrocene BSP provides this.",
+      "reality": "read_hw_ns() returns 0, BSP not in repository"
+    }
+  ],
+  "ci_findings": {
+    "integration": "make demo (demo.py), 0 tests executed, reports success — violates eh-req-023 and eh-req-024",
+    "lint-specs": "spectral fails 'Resource not accessible by integration' — missing checks: write permission",
+    "crossplatform": "CI 6 pass vs local 2 pass — CI has Docker services (broker, HRRM core), local does not"
   }
 }
