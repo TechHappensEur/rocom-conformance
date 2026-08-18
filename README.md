@@ -98,9 +98,15 @@ The `integration` job runs `make demo` (demo.py), not a test suite. No pytest,
 no test count, no machine-readable output. Reports `success` with 0 executed tests.
 Both eh-req-023 (zero tests → NOT_RUN) and eh-req-024 (success → test count) are violated.
 
-### lint-specs — spectral annotation failure
-`lint-specs` spectral step fails silently with "Resource not accessible by integration"
-due to missing `checks: write` scope. Fix: add `permissions: { contents: read, checks: write, pull-requests: write }`.
+### lint-specs — spec-en aldri validert
+Spectral lastet `.spectral.yaml` med 46 regler enabled, men krasjet med
+`Resource not accessible by integration` på Checks API-et — aldri leverte
+resultat. `file` input er deprecated (skulle vært `file_glob`).
+Jobben rapporterte `success` fordi docker-action-feilen ikke ble fanget av
+`shell: bash -e`. **Konklusjon:** OpenAPI-spec-en er aldri blitt validert
+mot ruleset på noen commit.
+Fix: `permissions: { contents: read, checks: write, pull-requests: write }`
+og bytt `file` til `file_glob`.
 
 ### crossplatform — CI vs local discrepancy
 CI: 6 tests pass. Local: 2 tests pass. CI runs Docker containers (mqtt broker, HRRM core, etc.)

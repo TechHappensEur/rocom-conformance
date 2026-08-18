@@ -1,18 +1,17 @@
 {
   "report_version": "1.0.0",
-  "timestamp": "2026-08-18T07:41:16.798337+00:00",
+  "timestamp": "2026-08-18T08:11:26.021137+00:00",
   "harness_version": "1.0.0",
-  "test_id": "self-test-l1-v2",
+  "test_id": "self-test-l1-v3",
   "applies_to": [
-    "eh-req-001",
     "eh-req-002",
     "eh-req-005",
     "eh-req-023",
     "eh-req-024"
   ],
   "verdict": "PASS",
-  "test_count": 9,
-  "passed": 9,
+  "test_count": 11,
+  "passed": 11,
   "failed": 0,
   "skipped": 0,
   "not_run": 0,
@@ -21,10 +20,10 @@
     "toolchain": "python 3.x (harness self-test)"
   },
   "coverage": {
-    "total_requirements": 9,
-    "tested_requirements": 9,
-    "implemented_requirements": 9,
-    "coverage_ratio": "9/9"
+    "total_requirements": 11,
+    "tested_requirements": 11,
+    "implemented_requirements": 11,
+    "coverage_ratio": "11/11"
   },
   "evidence": [
     {
@@ -75,6 +74,16 @@
     },
     {
       "id": "T-08",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "id": "T-09",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "id": "T-10",
       "status": "PASS",
       "details": ""
     }

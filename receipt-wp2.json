@@ -33,7 +33,7 @@
   "wp1_receipt": {
     "file": "reports/eh-receipts/receipt-wp1.json",
     "verify": "reports/eh-receipts/verify_receipt.py (5/5 checks pass, exit 0)",
-    "commit_url": "https://github.com/TechHappensEur/Rocom-HRRM/commit/5ea25c4"
+    "commit_url": "https://github.com/TechHappensEur/Rocom-HRRM/commit/8496937"
   },
   "ferrocene_claims": [
     {

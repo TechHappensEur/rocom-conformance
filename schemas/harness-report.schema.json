@@ -71,10 +71,10 @@
       "description": "eh-req-002: Reason for NOT_RUN verdict",
       "enum": [
         "missing_service",
-        "missing_tool",
-        "simulated",
-        "no_tests_implemented",
-        "preflight_failure",
+        "missing_toolchain",
+        "missing_fixture",
+        "missing_credential",
+        "timeout",
         "n/a"
       ],
       "default": "n/a"
@@ -163,10 +163,10 @@
             "description": "Reason if status is NOT_RUN",
             "enum": [
               "missing_service",
-              "missing_tool",
-              "simulated",
-              "no_tests_implemented",
-              "preflight_failure",
+              "missing_toolchain",
+              "missing_fixture",
+              "missing_credential",
+              "timeout",
               "n/a"
             ]
           },

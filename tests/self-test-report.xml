@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<testsuite name="self-test-l1-v2" tests="9" errors="0" failures="0" skipped="0" time="0.0" timestamp="2026-08-18T07:41:16.798337+00:00">
+<testsuite name="self-test-l1-v3" tests="11" errors="0" failures="0" skipped="0" time="0.0" timestamp="2026-08-18T08:11:26.021137+00:00">
   <testcase name="T-00" />
   <testcase name="T-01" />
   <testcase name="T-02" />
@@ -9,4 +9,6 @@
   <testcase name="T-06" />
   <testcase name="T-07" />
   <testcase name="T-08" />
+  <testcase name="T-09" />
+  <testcase name="T-10" />
 </testsuite>
