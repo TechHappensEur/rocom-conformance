@@ -1,0 +1,21 @@
+{
+  "work_package": "WP2",
+  "title": "L1 Conformance Harness — schema, preflight, reporter, eh-req-023/024",
+  "date": "2026-08-18",
+  "repo": "https://github.com/TechHappensEur/rocom-conformance",
+  "requirements": {
+    "eh-req-023": "Every CI job MUST report test count with mandatory fields (test_id, verdict, coverage, evidence, timestamp)",
+    "eh-req-024": "CI job with 0 tests or only skipped = NOT_RUN, never success"
+  },
+  "commits": [
+    {
+      "sha": "d67f9d1",
+      "url": "https://github.com/TechHappensEur/rocom-conformance/commit/d67f9d1"
+    }
+  ],
+  "self_test": "5/5 passed (test_self.py)",
+  "findings": {
+    "integration_job_eh_req_023": "integration job runs 'make demo' (demo.py) — not a test suite. No pytest, no test count. Per eh-req-023 this MUST report test count. Currently reports nothing. Violation.",
+    "integration_job_eh_req_024": "integration job reports 'success' with 0 executed tests. Per eh-req-024 this MUST be NOT_RUN. Violation."
+  }
+}

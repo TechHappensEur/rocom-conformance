@@ -2,9 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://techhappenseur.github.io/rocom-conformance/harness-report.schema.json",
   "title": "Rocom Conformance Harness Report",
-  "description": "Machine-readable test report produced by the Rocom conformance harness. eh-req-023: mandatory fields for every CI job.",
+  "description": "Machine-readable test report produced by the Rocom conformance harness. Implements eh-req-001 (JUnit XML), eh-req-002 (status vocabulary), eh-req-005 (build provenance), eh-req-023 (zero tests → NOT_RUN), eh-req-024 (success → test count).",
   "type": "object",
-  "required": ["report_version", "timestamp", "harness_version", "test_id", "verdict", "test_count", "passed", "failed", "skipped", "not_run", "coverage", "evidence", "requirements"],
+  "required": [
+    "report_version", "timestamp", "harness_version", "test_id",
+    "applies_to", "verdict", "test_count", "passed", "failed",
+    "skipped", "not_run", "build_provenance", "coverage",
+    "evidence", "requirements"
+  ],
   "properties": {
     "report_version": {
       "type": "string",
@@ -25,14 +30,23 @@
       "description": "Unique identifier for this test run",
       "minLength": 1
     },
+    "applies_to": {
+      "type": "array",
+      "description": "Requirement IDs this report implements (eh-req-001, eh-req-002, eh-req-005, eh-req-023, eh-req-024)",
+      "items": {
+        "type": "string",
+        "pattern": "^eh-req-\\d{3}$"
+      },
+      "minItems": 1
+    },
     "verdict": {
       "type": "string",
-      "description": "Overall verdict: PASS, FAIL, NOT_RUN (eh-req-024: 0 tests = NOT_RUN)",
-      "enum": ["PASS", "FAIL", "NOT_RUN"]
+      "description": "Overall verdict. eh-req-002: PASS | FAIL | NOT_RUN | ERROR",
+      "enum": ["PASS", "FAIL", "NOT_RUN", "ERROR"]
     },
     "test_count": {
       "type": "integer",
-      "description": "Total number of executed tests (eh-req-023: MUST be reported; eh-req-024: MUST be > 0 for PASS/FAIL)",
+      "description": "Total number of executed tests. eh-req-024: MUST be >0 for PASS/FAIL verdict.",
       "minimum": 0
     },
     "passed": {
@@ -49,8 +63,43 @@
     },
     "not_run": {
       "type": "integer",
-      "description": "Tests that were not executed",
+      "description": "Tests not executed",
       "minimum": 0
+    },
+    "not_run_reason": {
+      "type": "string",
+      "description": "eh-req-002: Reason for NOT_RUN verdict",
+      "enum": [
+        "missing_service",
+        "missing_tool",
+        "simulated",
+        "no_tests_implemented",
+        "preflight_failure",
+        "n/a"
+      ],
+      "default": "n/a"
+    },
+    "build_provenance": {
+      "type": "object",
+      "description": "eh-req-005: Build provenance — toolchain, version, commit. Use {\"toolchain\": \"n/a\"} when no build exists.",
+      "properties": {
+        "toolchain": {
+          "type": "string",
+          "description": "Build toolchain identifier (e.g., 'rustc 1.97.1 stable', 'Ferrocene 24.11.0', 'n/a')"
+        },
+        "commit": {
+          "type": "string",
+          "description": "Git commit SHA of built code"
+        },
+        "build_artifact": {
+          "type": "string",
+          "description": "Path or URL to build artifact"
+        },
+        "build_log": {
+          "type": "string",
+          "description": "Path or URL to build log"
+        }
+      }
     },
     "coverage": {
       "type": "object",
@@ -59,17 +108,14 @@
       "properties": {
         "total_requirements": {
           "type": "integer",
-          "description": "Total requirements in specification",
           "minimum": 0
         },
         "tested_requirements": {
           "type": "integer",
-          "description": "Requirements with at least one test",
           "minimum": 0
         },
         "implemented_requirements": {
           "type": "integer",
-          "description": "Requirements with passing test",
           "minimum": 0
         },
         "coverage_ratio": {
@@ -80,14 +126,14 @@
     },
     "evidence": {
       "type": "array",
-      "description": "Machine-readable evidence artifacts (JUnit XML, logs, traces)",
+      "description": "eh-req-001: Machine-readable evidence artifacts including JUnit XML",
       "items": {
         "type": "object",
         "required": ["type", "path"],
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["junit-xml", "log", "trace", "artifact"]
+            "enum": ["junit-xml", "log", "trace", "artifact", "preflight-report"]
           },
           "path": {
             "type": "string",
@@ -98,7 +144,7 @@
     },
     "requirements": {
       "type": "array",
-      "description": "Per-requirement test results",
+      "description": "Per-requirement test results with eh-req-002 status vocabulary",
       "items": {
         "type": "object",
         "required": ["id", "status"],
@@ -109,7 +155,20 @@
           },
           "status": {
             "type": "string",
-            "enum": ["tested_pass", "tested_fail", "not_tested", "simulated"]
+            "description": "eh-req-002: PASS | FAIL | NOT_RUN | ERROR",
+            "enum": ["PASS", "FAIL", "NOT_RUN", "ERROR"]
+          },
+          "not_run_reason": {
+            "type": "string",
+            "description": "Reason if status is NOT_RUN",
+            "enum": [
+              "missing_service",
+              "missing_tool",
+              "simulated",
+              "no_tests_implemented",
+              "preflight_failure",
+              "n/a"
+            ]
           },
           "test_count": {
             "type": "integer",
@@ -124,7 +183,7 @@
   },
   "allOf": [
     {
-      "description": "eh-req-024: verdict MUST be NOT_RUN if test_count is 0",
+      "description": "eh-req-023: verdict MUST be NOT_RUN if test_count is 0",
       "if": {
         "properties": { "test_count": { "const": 0 } }
       },
@@ -133,18 +192,12 @@
       }
     },
     {
-      "description": "eh-req-024: verdict MUST be NOT_RUN if all tests are skipped",
+      "description": "eh-req-024: verdict MUST include test_count when PASS or FAIL",
       "if": {
-        "properties": { "skipped": { "exclusiveMinimum": 0 } },
-        "required": ["skipped"]
+        "properties": { "verdict": { "enum": ["PASS", "FAIL"] } }
       },
       "then": {
-        "if": {
-          "properties": { "passed": { "const": 0 }, "failed": { "const": 0 } }
-        },
-        "then": {
-          "properties": { "verdict": { "const": "NOT_RUN" } }
-        }
+        "properties": { "test_count": { "exclusiveMinimum": 0 } }
       }
     }
   ]

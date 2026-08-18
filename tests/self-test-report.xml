@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="self-test-l1-v2" tests="9" errors="0" failures="0" skipped="0" time="0.0" timestamp="2026-08-18T07:41:16.798337+00:00">
+  <testcase name="T-00" />
+  <testcase name="T-01" />
+  <testcase name="T-02" />
+  <testcase name="T-03" />
+  <testcase name="T-04" />
+  <testcase name="T-05" />
+  <testcase name="T-06" />
+  <testcase name="T-07" />
+  <testcase name="T-08" />
+</testsuite>
