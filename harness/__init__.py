@@ -12,11 +12,12 @@ Implemented requirements:
   eh-req-024: CI job reporting success MUST specify number of executed tests
 
 Usage:
-  from harness import create_report, validate_report, generate_junit_xml, run_with_timeout
+  from harness import create_report, validate_report, generate_junit_xml, run_with_timeout, run_command_with_timeout
 """
 import json
 import os
 import signal
+import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -51,8 +52,7 @@ def _determine_applies_to(junit_xml=False, build_provenance=None, has_timeout=Fa
     reqs.append("eh-req-002")
     if has_timeout:
         reqs.append("eh-req-003")
-    if build_provenance and build_provenance.get("toolchain") != "n/a":
-        reqs.append("eh-req-005")
+    reqs.append("eh-req-005")
     reqs.append("eh-req-023")
     reqs.append("eh-req-024")
     return reqs
@@ -160,30 +160,46 @@ def validate_report(report):
     return True, "OK"
 
 
-class TimeoutError(Exception):
+class HarnessTimeout(Exception):
     """Raised when a test exceeds its time limit (eh-req-003)."""
     pass
 
 
 def run_with_timeout(func, timeout, *args, **kwargs):
-    """D4: eh-req-003 — run a test function with a hard timeout.
+    """eh-req-003 — run a test function with a hard timeout.
 
     Returns (result, timed_out). If timeout is hit, returns (None, True).
-    Exit 124 is impossible — we catch SIGALRM and return gracefully.
+    Covers in-process Python code. Does not cover subprocess children
+    (use run_command_with_timeout for those).
     """
     def _alarm(signum, frame):
-        raise TimeoutError("Test exceeded {0}s limit".format(timeout))
+        raise HarnessTimeout("Test exceeded {0}s limit".format(timeout))
 
     old_handler = signal.signal(signal.SIGALRM, _alarm)
     signal.alarm(timeout)
     try:
         result = func(*args, **kwargs)
         return result, False
-    except TimeoutError:
+    except HarnessTimeout:
         return None, True
     finally:
         signal.alarm(0)
         signal.signal(signal.SIGALRM, old_handler)
+
+
+def run_command_with_timeout(cmd, timeout):
+    """eh-req-003 — run a subprocess with a hard timeout.
+
+    Returns (returncode, stdout, stderr, timed_out).
+    subprocess.run(timeout=) raises subprocess.TimeoutExpired, not exit 124.
+    """
+    try:
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, timeout=timeout
+        )
+        return result.returncode, result.stdout, result.stderr, False
+    except subprocess.TimeoutExpired:
+        return None, "", "", True
 
 
 def generate_junit_xml(report, output_path):

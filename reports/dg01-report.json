@@ -1,0 +1,49 @@
+{
+  "report_version": "1.0.0",
+  "timestamp": "2026-08-18T08:23:05.026820+00:00",
+  "harness_version": "1.0.0",
+  "test_id": "dg01-local",
+  "applies_to": [
+    "eh-req-002",
+    "eh-req-005",
+    "eh-req-023",
+    "eh-req-024"
+  ],
+  "verdict": "PASS",
+  "test_count": 2,
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "not_run": 0,
+  "not_run_reason": "n/a",
+  "build_provenance": {
+    "toolchain": "python 3.x, paho-mqtt",
+    "commit": "local"
+  },
+  "coverage": {
+    "total_requirements": 17,
+    "tested_requirements": 1,
+    "implemented_requirements": 1,
+    "coverage_ratio": "1/17"
+  },
+  "evidence": [
+    {
+      "type": "log",
+      "path": "reports/dg01-test.log"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "DG-01",
+      "status": "PASS",
+      "test_count": 1,
+      "details": "test_dg01_valid_profile: assertion satisfied"
+    },
+    {
+      "id": "DG-01",
+      "status": "PASS",
+      "test_count": 1,
+      "details": "test_dg01_negative_missing_profile: assertion satisfied"
+    }
+  ]
+}

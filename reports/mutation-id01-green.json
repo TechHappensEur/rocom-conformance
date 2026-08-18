@@ -1,0 +1,50 @@
+{
+  "report_version": "1.0.0",
+  "timestamp": "2026-08-18T08:23:07.977248+00:00",
+  "harness_version": "1.0.0",
+  "test_id": "mutation-id01-green",
+  "applies_to": [
+    "eh-req-002",
+    "eh-req-005",
+    "eh-req-023",
+    "eh-req-024"
+  ],
+  "verdict": "PASS",
+  "test_count": 2,
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "not_run": 0,
+  "not_run_reason": "n/a",
+  "build_provenance": {
+    "toolchain": "python 3.x, paho-mqtt",
+    "commit": "local"
+  },
+  "coverage": {
+    "total_requirements": 17,
+    "tested_requirements": 2,
+    "implemented_requirements": 2,
+    "coverage_ratio": "2/17"
+  },
+  "evidence": [
+    {
+      "type": "log",
+      "path": "reports/id01-test.log"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "ID-01",
+      "status": "PASS",
+      "test_count": 1,
+      "details": "test_id01_unique_cert: assertion satisfied"
+    },
+    {
+      "id": "ID-01",
+      "status": "PASS",
+      "test_count": 1,
+      "details": "test_id01_negative_duplicate_cert: assertion satisfied"
+    }
+  ],
+  "mutation": "baseline \u2014 no mutation applied"
+}

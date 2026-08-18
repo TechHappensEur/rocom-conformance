@@ -26,7 +26,7 @@ import time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from harness import (
     create_report, validate_report, generate_junit_xml,
-    VALID_VERDICTS, NOT_RUN_REASONS, run_with_timeout, TimeoutError
+    VALID_VERDICTS, NOT_RUN_REASONS, run_with_timeout, HarnessTimeout
 )
 
 observed_verdicts = set()

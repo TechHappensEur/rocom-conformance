@@ -1,0 +1,143 @@
+{
+  "version": "1.0.0",
+  "description": "Rocom conformance requirement registry \u2014 Part 6 (Security/Identity) and Part 7 (Data Governance)",
+  "total": 17,
+  "requirements": [
+    {
+      "id": "ID-01",
+      "part": 6,
+      "level": "L1",
+      "spec_id": "it-req-001",
+      "statement": "Every agent presents a unique X.509 client certificate. Shared certificates rejected.",
+      "test_implemented": true
+    },
+    {
+      "id": "ID-02",
+      "part": 6,
+      "level": "L1",
+      "spec_id": "it-req-003",
+      "statement": "Manual revocation supported: a revoked agent is denied within one operational day.",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-10",
+      "part": 6,
+      "level": "L2",
+      "spec_id": "it-req-101",
+      "statement": "Certificate rotation without service interruption.",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-11",
+      "part": 6,
+      "level": "L2",
+      "spec_id": "it-req-102",
+      "statement": "Revocation propagated to all brokers/endpoints within deployment profile.",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-12",
+      "part": 6,
+      "level": "L2",
+      "spec_id": "it-req-103",
+      "statement": "Network zone model enforced: OT\u2192IT only via convergence layer.",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-20",
+      "part": 6,
+      "level": "L3",
+      "spec_id": "it-req-201",
+      "statement": "Fully automatic issuance and rotation (SPIRE or equivalent).",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-21",
+      "part": 6,
+      "level": "L3",
+      "spec_id": "it-req-202",
+      "statement": "Central revocation authority with signed revocation feed; propagation under 5 minutes.",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-22",
+      "part": 6,
+      "level": "L3",
+      "spec_id": "it-req-203",
+      "statement": "Onboarding/offboarding triggers identity issuance/revocation atomically.",
+      "test_implemented": false
+    },
+    {
+      "id": "ID-23",
+      "part": 6,
+      "level": "L3",
+      "spec_id": "it-req-204",
+      "statement": "Compromise response: flagged agent quarantined within 5 minutes.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-01",
+      "part": 7,
+      "level": "L1",
+      "spec_id": "dg-req-001",
+      "statement": "Every agent has a data profile in the Agent Registry: sensors, data classes, declared destinations, lawful basis.",
+      "test_implemented": true
+    },
+    {
+      "id": "DG-02",
+      "part": 7,
+      "level": "L1",
+      "spec_id": "dg-req-002",
+      "statement": "Every provider/task-source connection declares data_classes_delivered, declared_destinations, lawful_basis.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-03",
+      "part": 7,
+      "level": "L1",
+      "spec_id": "dg-req-003",
+      "statement": "Sensor-payload class does not traverse the convergence layer.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-04",
+      "part": 7,
+      "level": "L1",
+      "spec_id": "dg-req-004",
+      "statement": "Operational telemetry is verified free of personal-data fields.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-10",
+      "part": 7,
+      "level": "L2",
+      "spec_id": "dg-req-101",
+      "statement": "All vendor telemetry/diagnostic egress is declared, routable and blockable.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-11",
+      "part": 7,
+      "level": "L2",
+      "spec_id": "dg-req-103",
+      "statement": "Data flows are attributable to agent identity in the audit trail.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-12",
+      "part": 7,
+      "level": "L2",
+      "spec_id": "dg-req-104",
+      "statement": "Registry can export an Article 30-compatible record of processing.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-30",
+      "part": 7,
+      "level": "L1+",
+      "spec_id": "dg-req-020",
+      "statement": "Teleoperation/remote assistance MAY carry sensor payloads as declared exception.",
+      "test_implemented": false
+    }
+  ]
+}
