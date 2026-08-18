@@ -1,0 +1,20 @@
+{
+  "report_version": "1.0.0",
+  "timestamp": "2026-08-18T07:33:39.785363+00:00",
+  "harness_version": "1.0.0",
+  "test_id": "self-test-l1",
+  "verdict": "PASS",
+  "test_count": 5,
+  "passed": 5,
+  "failed": 0,
+  "skipped": 0,
+  "not_run": 0,
+  "coverage": {
+    "total_requirements": 0,
+    "tested_requirements": 0,
+    "implemented_requirements": 0,
+    "coverage_ratio": "0/0"
+  },
+  "evidence": [],
+  "requirements": []
+}
