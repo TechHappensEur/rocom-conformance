@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "Rocom conformance requirement registry \u2014 Part 6 (Security/Identity) and Part 7 (Data Governance)",
-  "total": 17,
+  "total": 20,
   "requirements": [
     {
       "id": "ID-01",
@@ -129,6 +129,30 @@
       "level": "L2",
       "spec_id": "dg-req-104",
       "statement": "Registry can export an Article 30-compatible record of processing.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-20",
+      "part": 7,
+      "level": "L3",
+      "spec_id": "dg-req-201",
+      "statement": "Egress policy enforced technically at convergence layer (allow-list per agent identity). Policy changes versioned and approved (two-person rule).",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-21",
+      "part": 7,
+      "level": "L3",
+      "spec_id": "dg-req-202",
+      "statement": "Continuous verification: declared data profiles reconciled against observed flows; deviations raise governance events within 24h.",
+      "test_implemented": false
+    },
+    {
+      "id": "DG-22",
+      "part": 7,
+      "level": "L3",
+      "spec_id": "dg-req-203",
+      "statement": "Third-country transfer register auditable per art. 30 with per-transfer lawful-basis reference.",
       "test_implemented": false
     },
     {

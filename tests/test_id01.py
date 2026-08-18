@@ -17,6 +17,7 @@ eh-req-003: each sub-test runs under 5s timeout.
 eh-req-011: depends on mqtt_broker (probed in preflight).
 """
 import json
+import subprocess
 import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -119,12 +120,13 @@ def run_tests():
         failed=failed,
         skipped=0,
         not_run=not_run,
-        build_provenance={"toolchain": "python 3.x, paho-mqtt", "commit": "local"},
+        build_provenance={"toolchain": "python 3.x, paho-mqtt", "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=os.path.dirname(os.path.dirname(__file__)), stderr=subprocess.DEVNULL).decode().strip()},
+        junit_xml=True,
         coverage={
-            "total_requirements": 17,
+            "total_requirements": 20,
             "tested_requirements": 2,
             "implemented_requirements": 2 if failed == 0 else 1,
-            "coverage_ratio": "2/17"
+            "coverage_ratio": "2/20"
         },
         requirements=results,
         evidence=[{"type": "log", "path": "reports/id01-test.log"}]

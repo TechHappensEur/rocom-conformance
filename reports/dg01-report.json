@@ -1,9 +1,10 @@
 {
   "report_version": "1.0.0",
-  "timestamp": "2026-08-18T08:23:05.026820+00:00",
+  "timestamp": "2026-08-18T08:47:35.440591+00:00",
   "harness_version": "1.0.0",
   "test_id": "dg01-local",
   "applies_to": [
+    "eh-req-001",
     "eh-req-002",
     "eh-req-005",
     "eh-req-023",
@@ -18,13 +19,13 @@
   "not_run_reason": "n/a",
   "build_provenance": {
     "toolchain": "python 3.x, paho-mqtt",
-    "commit": "local"
+    "commit": "26a2cdd5b2e40838047a74cbc4b983bf214b4a12"
   },
   "coverage": {
-    "total_requirements": 17,
+    "total_requirements": 20,
     "tested_requirements": 1,
     "implemented_requirements": 1,
-    "coverage_ratio": "1/17"
+    "coverage_ratio": "1/20"
   },
   "evidence": [
     {

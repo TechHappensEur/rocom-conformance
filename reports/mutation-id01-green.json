@@ -18,13 +18,13 @@
   "not_run_reason": "n/a",
   "build_provenance": {
     "toolchain": "python 3.x, paho-mqtt",
-    "commit": "local"
+    "commit": "26a2cdd5b2e40838047a74cbc4b983bf214b4a12"
   },
   "coverage": {
-    "total_requirements": 17,
+    "total_requirements": 20,
     "tested_requirements": 2,
     "implemented_requirements": 2,
-    "coverage_ratio": "2/17"
+    "coverage_ratio": "2/20"
   },
   "evidence": [
     {
