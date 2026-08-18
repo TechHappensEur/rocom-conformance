@@ -107,6 +107,16 @@ def test_dg01_negative_missing_profile():
 
 def run_tests():
     """Run DG-01 tests with eh-req-003 timeout enforcement."""
+    def _git_commit():
+        try:
+            return subprocess.check_output(
+                ["git", "rev-parse", "HEAD"],
+                cwd=os.path.dirname(os.path.dirname(__file__)),
+                stderr=subprocess.DEVNULL,
+            ).decode().strip()
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            return "n/a"
+
     tests = [
         ("test_dg01_valid_profile", test_dg01_valid_profile),
         ("test_dg01_negative_missing_profile", test_dg01_negative_missing_profile),
@@ -144,7 +154,7 @@ def run_tests():
         not_run=not_run,
         build_provenance={
             "toolchain": "python 3.x, paho-mqtt",
-            "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=os.path.dirname(os.path.dirname(__file__)), stderr=subprocess.DEVNULL).decode().strip(),
+            "commit": _git_commit(),
             "fixtures": [
                 {
                     "name": "mqtt_broker",

@@ -155,6 +155,16 @@ def test_id01_negative_llama_response():
 
 
 def run_tests():
+    def _git_commit():
+        try:
+            return subprocess.check_output(
+                ["git", "rev-parse", "HEAD"],
+                cwd=os.path.dirname(os.path.dirname(__file__)),
+                stderr=subprocess.DEVNULL,
+            ).decode().strip()
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            return "n/a"
+
     tests = [
         ("test_id01_unique_cert", test_id01_unique_cert),
         ("test_id01_negative_duplicate_cert", test_id01_negative_duplicate_cert),
@@ -192,7 +202,7 @@ def run_tests():
         not_run=not_run,
         build_provenance={
             "toolchain": "python 3.x, paho-mqtt",
-            "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=os.path.dirname(os.path.dirname(__file__)), stderr=subprocess.DEVNULL).decode().strip(),
+            "commit": _git_commit(),
             "fixtures": [
                 {
                     "name": "mqtt_broker",
